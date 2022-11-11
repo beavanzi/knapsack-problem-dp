@@ -3,7 +3,7 @@
 # Returns the maximum value that can
 # be put in a knapsack of capacity W
  
- 
+from time import sleep, perf_counter
 def knapSack(W, wt, val, n):
     K = [[0 for x in range(W + 1)] for x in range(n + 1)]
  
@@ -23,10 +23,12 @@ def knapSack(W, wt, val, n):
  
  
 # Driver code
+start_time = perf_counter()
 val = [60, 100, 120]
 wt = [10, 20, 30]
 W = 50
 n = len(val)
 print(knapSack(W, wt, val, n))
- 
-# This code is contributed by Bhavya Jain
+
+end_time = perf_counter()
+print(f'It took {end_time- start_time} ms to complete.')
