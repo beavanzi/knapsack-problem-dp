@@ -6,7 +6,8 @@
 from time import sleep, perf_counter
 def knapSack(W, wt, val, n):
     K = [[0 for x in range(W + 1)] for x in range(n + 1)]
- 
+    
+    start_time = perf_counter()
     # Build table K[][] in bottom up manner
     for i in range(n + 1):
         for w in range(W + 1):
@@ -18,17 +19,18 @@ def knapSack(W, wt, val, n):
                               K[i-1][w])
             else:
                 K[i][w] = K[i-1][w]
+    end_time = perf_counter()
+    print(f'It took {end_time- start_time} ms to complete.')
  
     return K[n][W]
  
- 
-# Driver code
-start_time = perf_counter()
 val = [60, 100, 120]
 wt = [10, 20, 30]
 W = 50
 n = len(val)
+# Driver code
+
+
 print(knapSack(W, wt, val, n))
 
-end_time = perf_counter()
-print(f'It took {end_time- start_time} ms to complete.')
+
