@@ -25,6 +25,7 @@ wt = [382745,
 264724,
 224916,
 169684,]
+
 val = [825594,
 1677009,
 1676628,
@@ -51,58 +52,54 @@ val = [825594,
  369261,]
 W = 6404180
 n = len(val)
+
 K = [[0 for x in range(W + 1)] for x in range(n + 1)]
-isReady = [[False for x in range(W + 1)] for x in range(n + 1)]
+canGet = True
  
 def getK():
+    while(not canGet):
+        pass
     return K
 
-def getIsReady():
-    return isReady
 
 def setK(i,j,value):
+    canGet = False
     K[i][j] =value
-    isReady[i][j] =True
+    canGet = True
     return
 
-def loopKnap(W, wt, val, init,n):
-    for i in range(init,n + 1):
-        for w in range(W + 1):
-            if i == 0 or w == 0:
-                setK(i,w,0)
-                K[i][w] = 0  
-            elif wt[i-1] <= w:
-                isReady = getIsReady()
-                while(not(isReady[i-1][w-wt[i-1]] and isReady[i-1][w])):
-                    isReady = getIsReady()
-                    pass
-                setK(i,w,max(val[i-1]
-                          + K[i-1][w-wt[i-1]], 
-                              K[i-1][w]))
-            else:
-                isReady = getIsReady()
-                while(not(isReady[i-1][w])):
-                    isReady = getIsReady()
-                    pass
-                setK(i,w,getK()[i-1][w])
+def loopKnap(W, wt, val, init,i):
+    for w in range(init,W + 1):
+        if i == 0 or w == 0:
+            setK(i,w,0)
+        elif wt[i-1] <= w:
+            setK(i,w,max(val[i-1]
+                        + K[i-1][w-wt[i-1]], 
+                            K[i-1][w]))
+        else:
+            setK(i,w,getK()[i-1][w])
     return
 
 def knapSack(W, wt, val, n):
-    t1 = Thread(target=loopKnap,args=(W, wt, val,0, n//2))
-    t2 = Thread(target=loopKnap,args=(W, wt, val,n//2, n))
-    # start the threads
-    t1.start()
-    t2.start()
-    # wait for the threads to complete
-    t1.join()
-    t2.join()
+    
+    start_time = perf_counter()
+
+    for i in range(n + 1):
+       
+        t1 = Thread(target=loopKnap,args=(W//2, wt, val,0, i,K))
+        t2 = Thread(target=loopKnap,args=(W, wt, val,W//2, i,K))
+ 
+        t1.start()
+        t2.start()
+
+        t1.join()
+        t2.join()
+        
+    end_time = perf_counter()
+    print(f'Tempo para completar {end_time- start_time} ms.')
+    
     return K[n][W]
  
  
-start_time = perf_counter()
-
 
 print(knapSack(W, wt, val, n))
-
-end_time = perf_counter()
-print(f'It took {end_time- start_time} ms to complete.')
