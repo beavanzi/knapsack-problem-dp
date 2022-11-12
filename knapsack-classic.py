@@ -25,8 +25,6 @@ val = [92,57,49,68,60,43,67,84,87,72]
 W = 165
 n = len(val)
 
-# Driver code
-
 
 print(knapSack(W, wt, val, n))
 

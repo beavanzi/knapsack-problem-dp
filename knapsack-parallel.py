@@ -11,7 +11,8 @@ def loopKnap(W, wt, val, init,i,K):
                           + K[i-1][w-wt[i-1]], 
                               K[i-1][w])
             else:
-                K[i][w] = K[i-1][w]              
+                K[i][w] = K[i-1][w]
+                              
     return
 
 def knapSack(W, wt, val, n):
@@ -27,7 +28,7 @@ def knapSack(W, wt, val, n):
     end_time = perf_counter()
     print(f'Tempo para completar {end_time- start_time} ms.')
 
-    
+
     return K[n][W]
  
  
